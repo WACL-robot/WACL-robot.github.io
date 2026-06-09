@@ -4,24 +4,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- §0 — Anonymous meta: no authors, no institution, no trackers -->
+  <!-- Anonymous meta — no authors, no institution, no trackers -->
   <meta name="title" content="WACL: Beyond the End-Effector — Learning Whole-Arm Contact Manipulation from Human Demonstrations">
-  <meta name="description" content="A hierarchical framework that decomposes whole-arm manipulation into semantic keypoints, a reference contact trajectory, and VLM-generated path constraints, grounded by a surface-contact optimizer. CoRL 2026 submission.">
-  <meta name="keywords" content="whole-arm manipulation, contact manipulation, robot learning, imitation learning, path constraints, CoRL 2026">
+  <meta name="description" content="A hierarchical framework that decomposes whole-arm manipulation into semantic keypoints, a reference contact trajectory, and VLM-generated path constraints, grounded by a surface-contact optimizer.">
+  <meta name="keywords" content="whole-arm manipulation, contact manipulation, robot learning, imitation learning, path constraints, robot kinematics">
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#2563eb">
 
   <!-- Open Graph — anonymous, no personal links -->
   <meta property="og:type" content="article">
   <meta property="og:title" content="WACL: Beyond the End-Effector">
-  <meta property="og:description" content="Learning whole-arm contact manipulation from human demonstrations under end-effector constraints. CoRL 2026.">
-  <meta property="og:url" content="https://WACL-robot.github.io/">
-  <meta property="og:image" content="https://WACL-robot.github.io/static/images/og_preview.jpg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="WACL: whole-arm manipulation with end-effector constraint">
+  <meta property="og:description" content="Learning whole-arm contact manipulation from human demonstrations under end-effector constraints.">
+  <meta property="og:url" content="https://wacl-robot.github.io/">
+  <meta property="og:image" content="https://wacl-robot.github.io/static/images/framework.png">
+  <meta property="og:image:alt" content="WACL framework diagram">
 
-  <title>WACL: Beyond the End-Effector | CoRL 2026</title>
+  <title>WACL: Beyond the End-Effector</title>
 
   <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
   <link rel="apple-touch-icon" href="static/images/favicon.ico">
@@ -48,7 +46,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   </noscript>
 
-  <!-- Scripts — no Google Analytics, no personal trackers -->
+  <!-- Scripts — no analytics, no personal trackers -->
   <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script defer src="static/js/fontawesome.all.min.js"></script>
   <script defer src="static/js/bulma-carousel.min.js"></script>
@@ -64,7 +62,7 @@
 </button>
 
 <!-- ════════════════════════════════════════════════════════════════
-     §0  NAVBAR
+     NAVBAR
      ════════════════════════════════════════════════════════════════ -->
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
@@ -98,9 +96,7 @@
   <div class="hero-body">
     <div class="container is-max-desktop has-text-centered">
 
-      <div class="publication-venue">Under review at CoRL 2026</div>
-
-      <h1 class="title is-1 publication-title" style="margin-top:1.25rem;">
+      <h1 class="title is-1 publication-title">
         Beyond the End-Effector:<br>
         Learning Whole-Arm Contact Manipulation<br>
         from Human Demonstrations
@@ -116,7 +112,7 @@
       <!-- Links row — no personal/deanonymizing URLs -->
       <div class="column has-text-centered" style="margin-top:1.5rem;">
         <div class="link-block" style="display:inline-block;margin:0 0.4rem;">
-          <a href="#" class="external-link button is-dark" title="Paper PDF (anonymous preprint link)">
+          <a href="#" class="external-link button is-dark" title="Paper PDF">
             <span class="icon"><i class="fas fa-file-pdf"></i></span>
             <span>Paper</span>
           </a>
@@ -146,14 +142,12 @@
         <p class="subtitle is-5" style="color:var(--text-secondary);max-width:680px;margin:0 auto;">
           The hand keeps the cup upright;&nbsp;&nbsp;the arm does the rest.
         </p>
-        <!-- Stat chip -->
         <div style="margin-top:0.9rem;">
           <span style="
             display:inline-flex;align-items:center;gap:0.5rem;
             background:var(--primary-color);color:#fff;
             border-radius:100px;padding:0.5rem 1.25rem;
-            font-weight:700;font-size:1rem;
-          ">
+            font-weight:700;font-size:1rem;">
             <span style="font-size:1.15rem;font-weight:800;">78%</span>
             <span style="opacity:0.75;font-size:0.85rem;">WACL &nbsp;vs&nbsp;</span>
             <span style="font-size:1.15rem;font-weight:800;">33%</span>
@@ -174,37 +168,34 @@
       <div class="column is-four-fifths">
         <h2 class="title is-3 has-text-centered">Abstract</h2>
         <div class="content has-text-justified">
-          <!--
-            TODO: Replace this block with the polished paper abstract verbatim.
-            The paragraph below is a structural stand-in only.
-          -->
           <p>
-            Whole-arm manipulation — using the forearm, elbow, or upper-arm links as active
-            contact surfaces alongside the gripper — greatly expands a robot's capability.
-            Yet no prior learning-from-demonstration framework explicitly targets the scenario
-            where the end-effector itself must satisfy a hard geometric constraint (keep a cup
-            upright, stay tethered by a rope, hold a wet pad above the sink) while the rest
-            of the arm is free to make secondary contact with the environment.
+            Robot manipulation has traditionally relied on end-effector-centric interactions.
+            In contrast, humans routinely exploit whole-arm contacts to improve efficiency,
+            robustness, and adaptability, especially when the hands are occupied or when
+            precise grasping is unnecessary.
+            Enabling similar capabilities in robots remains challenging: the robot must select
+            where on its arm to make contact, generate effective non-prehensile interactions,
+            and satisfy task-specific pose or safety constraints on the end-effector.
           </p>
           <p>
-            We present <strong class="dnerf">WACL</strong> (Whole-Arm Contact Learning),
-            a hierarchical framework that decomposes the problem into three robot-agnostic
-            representations grounded in a single human RGB-D demonstration:
-            (i)&nbsp;semantic keypoints that track the manipulation target,
-            (ii)&nbsp;a reference arm-contact trajectory specifying which robot link
-            contacts which surface, and
-            (iii)&nbsp;VLM-generated path constraints on the end-effector
-            (<em>AxisCone</em> or <em>PositionRegion</em>).
-            At execution time, a surface-contact optimizer jointly searches over
-            contact link, sliding surface anchor, and joint configuration while
-            satisfying both the secondary contact objective and the active constraint.
+            We propose <strong><em>Whole-Arm Contact Learning</em> (WACL)</strong>, a hierarchical
+            framework that carries each whole-arm contact task to a trajectory optimizer through
+            three <em>robot-agnostic</em> representations: semantic keypoints that summarize the
+            scene, a reference contact trajectory that specifies where and how the arm presses
+            on the surface, and safety-aware path constraints — generated from language by
+            vision-language models — that protect the end-effector's task.
+            The robot's kinematics enters only in a downstream surface-contact optimizer, which
+            grounds these representations onto the arm by jointly searching over which link makes
+            contact, where on that link, and the joint configuration that realizes it.
           </p>
           <p>
-            Evaluated on four tasks (Coffee, Cabinet, Button, Faucet) with a
-            7-DoF xArm under end-effector constraints, WACL achieves
-            <strong>78% success</strong> versus <strong>33%</strong> for the KALM baseline.
-            The same framework transfers to a Franka Emika without any retraining,
-            demonstrating robot-agnostic generalization.
+            This decomposition lets WACL learn the contact trajectory from a handful of
+            <em>bare-hand human</em> demonstrations, while a new end-effector constraint changes
+            only the optimizer's input rather than any trained component.
+            Real-world experiments on a 7-DoF arm across four whole-arm tasks show that WACL
+            sustains contact under end-effector constraints where a strong keypoint-conditioned
+            baseline fails (78% vs. 33% success), generalizes to new constraints without
+            retraining, and learns without teleoperation.
           </p>
         </div>
       </div>
@@ -222,33 +213,26 @@
       <div class="column is-half">
         <div class="content" style="font-size:1.05rem;line-height:1.8;color:var(--text-secondary);">
           <p>
-            When the hand is constrained — keeping a cup level, staying tethered
-            by a rope, holding a wet pad above a sink — the end-effector can no
-            longer double as a contact surface for secondary manipulation.
+            When the hand is constrained — keeping a cup level, staying tethered by a rope,
+            holding a wet pad above a sink — the end-effector can no longer double as a
+            contact surface for secondary manipulation.
           </p>
           <p>
-            End-effector-only methods fail in this regime: there is no free link to
-            push, press, or slide against the environment once the hand is occupied.
+            End-effector-only methods fail in this regime: there is no free link to push,
+            press, or slide against the environment once the hand is occupied.
           </p>
           <p>
-            WACL makes secondary arm contact explicit and safety-aware, so the
-            primary hand constraint is satisfied end-to-end.
+            WACL makes secondary arm contact explicit and safety-aware, so the primary
+            hand constraint is satisfied end-to-end.
           </p>
         </div>
       </div>
       <div class="column is-half">
-        <!--
-          TODO: Swap with a real motivation figure.
-          The human_wam figure is stale — use a new diagram or generated placeholder.
-        -->
-        <div class="asset-placeholder" style="min-height:280px;">
-          <div class="placeholder-icon"><i class="fas fa-image"></i></div>
-          <div class="placeholder-title">Motivation Figure</div>
-          <div class="placeholder-desc">
-            Replace with an illustrative diagram showing hand-constrained
-            whole-arm contact (not the stale human_wam figure).
-          </div>
-        </div>
+        <figure class="image">
+          <img src="static/images/contact_links.png"
+               alt="Contact links diagram showing which robot arm segments make contact"
+               style="border-radius:var(--border-radius-lg);box-shadow:var(--shadow-lg);">
+        </figure>
       </div>
     </div>
   </div>
@@ -261,26 +245,24 @@
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Method</h2>
 
-    <!-- §4a — Pipeline video placeholder -->
-    <div class="asset-placeholder" style="min-height:340px;margin-bottom:2.5rem;">
+    <!-- Framework figure -->
+    <figure class="image" style="margin-bottom:2.5rem;">
+      <img src="static/images/framework.png"
+           alt="WACL framework: three-stage pipeline from human demonstration to robot execution"
+           style="border-radius:var(--border-radius-lg);box-shadow:var(--shadow-xl);">
+    </figure>
+
+    <!-- Pipeline video placeholder -->
+    <div class="asset-placeholder" style="min-height:300px;margin-bottom:2.5rem;">
       <div class="placeholder-icon"><i class="fas fa-film"></i></div>
-      <div class="placeholder-title">Pipeline / Framework Video</div>
+      <div class="placeholder-title">Pipeline Video</div>
       <div class="placeholder-desc">
         Overwrite <code>static/videos/pipeline.mp4</code> with the recorded
-        walkthrough of the three-stage pipeline.
+        pipeline walkthrough.
       </div>
     </div>
 
-    <!-- §4b — Framework figure placeholder -->
-    <div class="asset-placeholder" style="min-height:240px;margin-bottom:2.5rem;">
-      <div class="placeholder-icon"><i class="fas fa-project-diagram"></i></div>
-      <div class="placeholder-title">Framework Figure</div>
-      <div class="placeholder-desc">
-        Overwrite <code>static/images/framework.png</code> with the final pipeline diagram.
-      </div>
-    </div>
-
-    <!-- §4c — Three-stage breakdown -->
+    <!-- Three-stage breakdown -->
     <div class="columns is-variable is-6" style="margin-bottom:2.5rem;">
       <div class="column has-text-centered">
         <div style="font-size:2rem;color:var(--primary-color);margin-bottom:0.5rem;">①</div>
@@ -288,14 +270,14 @@
         <p class="content" style="color:var(--text-secondary);">
           A vision-language model inspects the human demonstration and generates
           symbolic path constraints — <code>AxisCone</code> or <code>PositionRegion</code> —
-          that characterize what the end-effector must satisfy throughout execution.
+          that the end-effector must satisfy throughout execution.
         </p>
       </div>
       <div class="column has-text-centered">
         <div style="font-size:2rem;color:var(--primary-color);margin-bottom:0.5rem;">②</div>
         <h3 class="title is-5">Contact Trajectory Synthesis</h3>
         <p class="content" style="color:var(--text-secondary);">
-          Semantic keypoints and KALM diffusion produce a reference arm-contact
+          Semantic keypoints and a diffusion policy produce a reference arm-contact
           trajectory — specifying which robot link contacts which surface,
           and the desired contact sequence.
         </p>
@@ -305,13 +287,13 @@
         <h3 class="title is-5">Surface-Contact Optimization</h3>
         <p class="content" style="color:var(--text-secondary);">
           A joint optimizer over contact link, sliding surface anchor, and joint
-          configuration plans the full trajectory while enforcing both the
-          secondary contact objective and the active end-effector constraint.
+          configuration plans the full trajectory while enforcing both the secondary
+          contact objective and the active end-effector constraint.
         </p>
       </div>
     </div>
 
-    <!-- §4d — Human demo → robot strip -->
+    <!-- Human demo → robot strip -->
     <h3 class="title is-5 has-text-centered" style="margin-bottom:1rem;">
       From Human Hands to Robot Arm
     </h3>
@@ -338,7 +320,7 @@
           </video>
         </div>
         <p class="has-text-centered" style="margin-top:0.6rem;color:var(--text-secondary);font-size:0.9rem;">
-          WACL rollout — xArm, Coffee task (AxisCone constraint)
+          WACL rollout — xArm, Coffee (AxisCone constraint)
         </p>
       </div>
     </div>
@@ -368,38 +350,62 @@
   <div class="container is-max-desktop">
     <h2 class="title is-3 has-text-centered">Comparison</h2>
 
-    <!-- Headline result table (Table 1) -->
+    <!-- Table 1 — full per-task numbers from the paper -->
     <div style="overflow-x:auto;margin-bottom:2.5rem;">
       <table class="table is-bordered is-striped is-hoverable is-fullwidth"
-             style="max-width:620px;margin:0 auto;text-align:center;font-family:'Inter',sans-serif;">
+             style="max-width:780px;margin:0 auto;text-align:center;font-family:'Inter',sans-serif;font-size:0.95rem;">
         <thead>
           <tr style="background:var(--background-accent);">
-            <th>Method</th>
-            <th>Coffee</th>
-            <th>Cabinet</th>
-            <th>Button</th>
-            <th>Faucet</th>
-            <th style="font-weight:800;">Avg (constrained)</th>
+            <th rowspan="2" style="vertical-align:middle;">Task</th>
+            <th colspan="2">Unconstrained</th>
+            <th colspan="2">Constrained</th>
+            <th rowspan="2" style="vertical-align:middle;">EEF Constraint</th>
+          </tr>
+          <tr style="background:var(--background-accent);">
+            <th>KALM</th>
+            <th style="color:#16a34a;">WACL (ours)</th>
+            <th>KALM</th>
+            <th style="color:#16a34a;">WACL (ours)</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td style="font-weight:700;color:#16a34a;">WACL (ours)</td>
-            <td>—</td><td>—</td><td>—</td><td>—</td>
-            <td style="font-weight:800;color:#16a34a;">78%</td>
+            <td style="text-align:left;font-weight:600;">Open coffee machine</td>
+            <td>4/10</td><td style="color:#16a34a;font-weight:600;">6/10</td>
+            <td>2/10</td><td style="color:#16a34a;font-weight:600;">7/10</td>
+            <td style="text-align:left;font-size:0.85rem;">Hold the cup upright</td>
           </tr>
           <tr>
-            <td style="font-weight:700;color:#dc2626;">KALM baseline</td>
-            <td>—</td><td>—</td><td>—</td><td>—</td>
-            <td style="font-weight:800;color:#dc2626;">33%</td>
+            <td style="text-align:left;font-weight:600;">Close cabinet door</td>
+            <td>7/10</td><td style="color:#16a34a;font-weight:600;">7/10</td>
+            <td>5/10</td><td style="color:#16a34a;font-weight:600;">8/10</td>
+            <td style="text-align:left;font-size:0.85rem;">Hold the plate horizontal</td>
+          </tr>
+          <tr>
+            <td style="text-align:left;font-weight:600;">Close faucet</td>
+            <td>6/10</td><td style="color:#16a34a;font-weight:600;">8/10</td>
+            <td>3/10</td><td style="color:#16a34a;font-weight:600;">7/10</td>
+            <td style="text-align:left;font-size:0.85rem;">Stay above the sink</td>
+          </tr>
+          <tr>
+            <td style="text-align:left;font-weight:600;">Press button</td>
+            <td>6/10</td><td style="color:#16a34a;font-weight:600;">9/10</td>
+            <td>3/10</td><td style="color:#16a34a;font-weight:600;">9/10</td>
+            <td style="text-align:left;font-size:0.85rem;">Stay within sphere</td>
           </tr>
         </tbody>
         <tfoot>
+          <tr style="background:var(--background-accent);">
+            <td style="text-align:left;font-weight:800;">Aggregate</td>
+            <td>58%</td><td style="color:#16a34a;font-weight:800;">75%</td>
+            <td style="color:#dc2626;font-weight:800;">33%</td>
+            <td style="color:#16a34a;font-weight:800;">78%</td>
+            <td></td>
+          </tr>
           <tr>
-            <td colspan="6"
-                style="font-size:0.8rem;color:var(--text-light);text-align:left;padding:0.5rem 0.75rem;">
-              Table 1 — success rates under end-effector constraints (xArm, 5 trials/task).
-              Replace — with final per-task numbers from the paper.
+            <td colspan="6" style="font-size:0.78rem;color:var(--text-light);text-align:left;padding:0.5rem 0.75rem;">
+              Few-shot real-world manipulation results (10 rollouts per task).
+              Under constraints, WACL outperforms the baseline aggregate success rate (78% vs. 33%).
             </td>
           </tr>
         </tfoot>
@@ -418,15 +424,15 @@
         <div class="comparison-label">
           <div class="method-name wacl">✓&nbsp;WACL (ours)</div>
           <div class="method-desc">
-            Coffee task — AxisCone constraint active. Cup stays level;
-            forearm lifts the handle.
+            Coffee task — AxisCone constraint active.
+            Cup stays level; forearm lifts the handle.
           </div>
         </div>
       </div>
       <div>
         <div class="comparison-item">
           <video autoplay muted loop playsinline preload="auto" data-autoplay
-                 aria-label="KALM baseline failure — no end-effector constraint applied">
+                 aria-label="KALM baseline failure — without end-effector constraint">
             <source src="static/videos/comparison/kalm_failure_unconstrained.mp4" type="video/mp4">
           </video>
         </div>
@@ -441,15 +447,13 @@
     </div>
 
     <!-- Placeholder: high-value under-constraint failure clip -->
-    <div class="asset-placeholder" style="min-height:200px;">
+    <div class="asset-placeholder" style="min-height:180px;">
       <div class="placeholder-icon"><i class="fas fa-video-slash"></i></div>
       <div class="placeholder-title">Baseline failure <em>under</em> constraint &nbsp;(highest-value asset)</div>
       <div class="placeholder-desc">
-        Record and drop in
-        <code>static/videos/comparison/kalm_failure_constrained.mp4</code> —
+        Drop in <code>static/videos/comparison/kalm_failure_constrained.mp4</code> —
         the KALM clip where the AxisCone / PositionRegion constraint is enforced
-        (cup tilts, plate drops, etc.). This is the most persuasive evidence for
-        the constrained evaluation gap.
+        (cup tilts, plate drops, etc.).
       </div>
     </div>
 
@@ -472,20 +476,19 @@
       <div class="column is-three-quarters">
         <div class="comparison-item">
           <video autoplay muted loop playsinline preload="auto" data-autoplay
-                 aria-label="Coffee task: AxisCone (cup upright) and PositionRegion (stay above sink) simultaneously — no retraining">
+                 aria-label="Coffee task with two simultaneous constraints: AxisCone and PositionRegion stay-above-sink — no retraining">
             <source src="static/videos/generalization.mp4" type="video/mp4">
           </video>
         </div>
         <p class="has-text-centered"
            style="margin-top:0.8rem;font-size:0.9rem;color:var(--text-secondary);">
           Coffee task — <strong>AxisCone</strong> (cup upright) +
-          <strong>PositionRegion</strong> (stay above sink) applied simultaneously.
-          No retraining.
+          <strong>PositionRegion</strong> (stay above sink) simultaneously. No retraining.
         </p>
       </div>
     </div>
 
-    <!-- Optional: ablation teaser placeholder -->
+    <!-- Ablation placeholder -->
     <div class="asset-placeholder" style="min-height:160px;margin-top:2rem;">
       <div class="placeholder-icon"><i class="fas fa-flask"></i></div>
       <div class="placeholder-title">Sliding-Anchor Ablation (optional)</div>
@@ -517,7 +520,6 @@
   title     = {Beyond the End-Effector: Learning Whole-Arm Contact Manipulation
                from Human Demonstrations},
   author    = {Anonymous},
-  booktitle = {Conference on Robot Learning (CoRL)},
   year      = {2026},
   note      = {Under review}
 }</code></pre>
@@ -533,7 +535,7 @@
   <div class="container">
     <div class="content has-text-centered">
       <p>
-        Anonymous submission · CoRL 2026 ·
+        Anonymous submission ·
         Page built with the
         <a href="https://github.com/eliahuhorwitz/Academic-project-page-template"
            target="_blank" rel="noopener noreferrer">
