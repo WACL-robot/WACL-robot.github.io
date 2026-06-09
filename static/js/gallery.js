@@ -12,29 +12,29 @@
     {
       id: 'coffee',
       label: 'Coffee',
-      constraintType: 'AxisCone',
-      constraintDesc: 'AxisCone — cup axis kept upright throughout.',
+      constraintType: 'Keep cup upright',
+      constraintDesc: 'The gripper must hold the cup upright throughout — the cup axis stays vertical.',
       caption: 'Gripper keeps the cup level while the forearm lifts the coffee-machine handle.',
     },
     {
       id: 'cabinet',
       label: 'Cabinet',
-      constraintType: 'AxisCone',
-      constraintDesc: 'AxisCone — plate normal kept upright throughout.',
+      constraintType: 'Keep plate flat',
+      constraintDesc: 'The gripper must hold the plate flat throughout — the plate normal stays vertical.',
       caption: 'Gripper keeps the plate flat while the forearm pushes the cabinet door closed.',
     },
     {
       id: 'button',
       label: 'Button',
-      constraintType: 'PositionRegion (sphere)',
-      constraintDesc: 'PositionRegion (sphere) — gripper tethered within a fixed radius.',
+      constraintType: 'Stay within tether radius',
+      constraintDesc: 'The gripper must stay within a fixed radius of the rope anchor — simulating a tethered hand.',
       caption: 'Gripper stays within a tether-radius sphere while the forearm presses the button.',
     },
     {
       id: 'faucet',
       label: 'Faucet',
-      constraintType: 'PositionRegion (half-space)',
-      constraintDesc: 'PositionRegion (half-space) — wet pad kept above the sink plane.',
+      constraintType: 'Stay above the sink',
+      constraintDesc: 'The gripper must stay above the sink plane throughout — keeping the wet pad out of the basin.',
       caption: 'Gripper keeps the wet pad above the sink while the forearm turns the faucet off.',
     },
   ];
@@ -89,14 +89,6 @@
               ${e.label}
             </button>`).join('')}
         </div>
-      </div>
-
-      <!-- Unconstrained placeholder row -->
-      <div class="unconstrained-row">
-        <button class="unconstrained-btn" disabled aria-disabled="true" title="Unconstrained rollouts not yet recorded">
-          Unconstrained (coming soon)
-        </button>
-        <span class="unconstrained-label">Unconstrained rollouts not yet filmed</span>
       </div>
 
       <!-- Video player -->

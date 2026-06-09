@@ -53,12 +53,37 @@ function setupVideoAutoplay() {
     videos.forEach(v => observer.observe(v));
 }
 
-$(document).ready(function() {
-    bulmaCarousel.attach('.carousel', {
-        slidesToScroll: 1, slidesToShow: 1,
-        loop: true, infinite: true,
-        autoplay: true, autoplaySpeed: 5000,
+function setupHeroScroller() {
+    const scroller = document.getElementById('heroScroller');
+    if (!scroller) return;
+    const slides = Array.from(scroller.querySelectorAll('.hero-slide'));
+    const prev = document.querySelector('.scroller-arrow.prev');
+    const next = document.querySelector('.scroller-arrow.next');
+    const dots = Array.from(document.querySelectorAll('#heroDots .dot'));
+
+    function current() {
+        return Math.round(scroller.scrollLeft / scroller.clientWidth);
+    }
+    function go(i) {
+        const idx = Math.max(0, Math.min(slides.length - 1, i));
+        scroller.scrollTo({ left: idx * scroller.clientWidth, behavior: 'smooth' });
+    }
+    if (prev) prev.addEventListener('click', () => go(current() - 1));
+    if (next) next.addEventListener('click', () => go(current() + 1));
+    dots.forEach((d, i) => d.addEventListener('click', () => go(i)));
+
+    let raf = null;
+    scroller.addEventListener('scroll', () => {
+        if (raf) return;
+        raf = requestAnimationFrame(() => {
+            const c = current();
+            dots.forEach((d, i) => d.classList.toggle('active', i === c));
+            raf = null;
+        });
     });
-    bulmaSlider.attach();
+}
+
+$(document).ready(function() {
+    setupHeroScroller();
     setupVideoAutoplay();
 });
