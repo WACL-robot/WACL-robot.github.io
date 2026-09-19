@@ -97,11 +97,44 @@
   <div class="hero-body" style="padding:2.5rem 1.5rem 1rem;">
     <div class="container is-max-desktop has-text-centered">
 
-      <h1 class="title is-1 publication-title" style="margin-bottom:0 !important;">
+      <h1 class="title is-1 publication-title" style="margin-bottom:1rem !important;">
         Beyond the End-Effector:<br>
         Learning Whole-Arm Contact Manipulation<br>
         from Human Demonstrations
       </h1>
+
+      <div class="publication-authors">
+        <span class="author-block">Bo-Ruei Huang,</span>
+        <span class="author-block">Daniel Seita,</span>
+        <span class="author-block">Erdem Bıyık</span>
+        <br>
+        <span class="author-block" style="color:var(--text-secondary);font-weight:500;">
+          University of Southern California
+        </span>
+      </div>
+
+      <span class="hero-badge">Conference on Robot Learning (CoRL) 2026 · Austin, Texas</span>
+
+      <div class="hero-links">
+        <a class="hero-link" href="https://openreview.net/pdf?id=C08KksTfEx"
+           target="_blank" rel="noopener noreferrer">
+          <i class="fas fa-file-pdf"></i><span>Paper</span>
+        </a>
+        <a class="hero-link" href="https://openreview.net/forum?id=C08KksTfEx"
+           target="_blank" rel="noopener noreferrer">
+          <i class="fas fa-comments"></i><span>OpenReview</span>
+        </a>
+        <!-- TODO(author): arXiv link — not yet posted; fill in the href and uncomment.
+        <a class="hero-link" href="" target="_blank" rel="noopener noreferrer">
+          <i class="ai ai-arxiv"></i><span>arXiv</span>
+        </a>
+        -->
+        <!-- TODO(author): Code link — repository not yet decided; fill in the href and uncomment.
+        <a class="hero-link" href="" target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-github"></i><span>Code</span>
+        </a>
+        -->
+      </div>
 
     </div>
   </div>
@@ -541,8 +574,78 @@
       </div>
     </div>
 
+    <!-- Ablations and controls -->
+    <h3 class="title is-5 has-text-centered" style="margin-top:2.5rem;margin-bottom:1rem;">
+      Ablations and Controls
+    </h3>
+    <div style="overflow-x:auto;margin-bottom:1.25rem;">
+      <table class="table is-bordered is-striped is-hoverable is-fullwidth"
+             style="max-width:780px;margin:0 auto;text-align:center;font-family:'Inter',sans-serif;font-size:0.95rem;">
+        <thead>
+          <tr style="background:var(--background-accent);">
+            <th style="text-align:left;">Task</th>
+            <th style="text-align:left;">Variant</th>
+            <th>Success</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="4" style="text-align:left;font-weight:600;vertical-align:middle;">
+              Open coffee<br><span style="font-weight:400;font-size:0.88rem;color:var(--text-secondary);">constrained, cup upright</span>
+            </td>
+            <td style="text-align:left;color:#16a34a;font-weight:600;">WACL (ours)</td>
+            <td style="color:#16a34a;font-weight:600;">7/10</td>
+          </tr>
+          <tr>
+            <td style="text-align:left;">Without sliding anchor</td>
+            <td>3/10</td>
+          </tr>
+          <tr>
+            <td style="text-align:left;">Hand-specified geometric arc</td>
+            <td>4/10</td>
+          </tr>
+          <tr>
+            <td style="text-align:left;">Registered replay of a single demo</td>
+            <td>6/10</td>
+          </tr>
+          <tr>
+            <td rowspan="4" style="text-align:left;font-weight:600;vertical-align:middle;">
+              Press button<br><span style="font-weight:400;font-size:0.88rem;color:var(--text-secondary);">constrained</span>
+            </td>
+            <td style="text-align:left;color:#16a34a;font-weight:600;">WACL (ours)</td>
+            <td style="color:#16a34a;font-weight:600;">9/10</td>
+          </tr>
+          <tr>
+            <td style="text-align:left;">Hand-specified geometric line</td>
+            <td>7/10</td>
+          </tr>
+          <tr>
+            <td style="text-align:left;">Contact link pinned to link 5</td>
+            <td>6/10</td>
+          </tr>
+          <tr>
+            <td style="text-align:left;">Contact link pinned to link 6</td>
+            <td>7/10</td>
+          </tr>
+          <tr>
+            <td rowspan="2" style="text-align:left;font-weight:600;vertical-align:middle;">Close faucet</td>
+            <td style="text-align:left;">One constraint</td>
+            <td>7/10</td>
+          </tr>
+          <tr>
+            <td style="text-align:left;">Two constraints (adding cup-upright), no retraining</td>
+            <td>7/10</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="has-text-centered" style="margin-bottom:2.5rem;font-size:0.95rem;color:var(--text-secondary);">
+      Aggregated over the four tasks, the constrained gap (31/40 vs. 13/40) is significant
+      (Cochran–Mantel–Haenszel p = 1.6×10⁻⁴); the unconstrained gap is not (p = 0.16).
+    </p>
+
     <!-- Placeholder: high-value under-constraint failure clip -->
-    <!--
+    <!-- TODO(author): record kalm_failure_constrained.mp4, then restore this block
     <div class="asset-placeholder" style="min-height:180px;">
       <div class="placeholder-icon"><i class="fas fa-video-slash"></i></div>
       <div class="placeholder-title">Baseline failure <em>under</em> constraint &nbsp;(highest-value asset)</div>
@@ -630,7 +733,6 @@
 <!-- ════════════════════════════════════════════════════════════════
      §8  BIBTEX
      ════════════════════════════════════════════════════════════════ -->
-<!--
 <section class="section" id="bibtex">
   <div class="container is-max-desktop">
     <div class="columns is-centered">
@@ -638,34 +740,33 @@
         <h2 class="title is-3 has-text-centered">BibTeX</h2>
         <div class="bibtex-header">
           <span style="font-size:0.9rem;color:var(--text-secondary);">
-            Anonymous submission — placeholder entry
+            Cite this paper
           </span>
           <button class="copy-bibtex-btn" onclick="copyBibTeX()" aria-label="Copy BibTeX to clipboard">
             <i class="fas fa-copy"></i>
             <span class="copy-text">Copy</span>
           </button>
         </div>
-        <pre><code id="bibtex-code">@inproceedings{wacl2026,
-  title     = {Beyond the End-Effector: Learning Whole-Arm Contact Manipulation
-               from Human Demonstrations},
-  author    = {Anonymous},
-  year      = {2026},
-  note      = {Under review}
+        <pre><code id="bibtex-code">@inproceedings{huang2026wacl,
+  title     = {Beyond the End-Effector: Learning Whole-Arm Contact Manipulation from Human Demonstrations},
+  author    = {Bo-Ruei Huang and Daniel Seita and Erdem B{\i}y{\i}k},
+  booktitle = {Conference on Robot Learning (CoRL)},
+  year      = {2026}
 }</code></pre>
       </div>
     </div>
   </div>
 </section>
--->
 
 <!-- ════════════════════════════════════════════════════════════════
-     §9  FOOTER — anonymous, no lab name
+     §9  FOOTER
      ════════════════════════════════════════════════════════════════ -->
 <footer class="footer">
   <div class="container">
     <div class="content has-text-centered">
       <p>
-        Anonymous submission ·
+        Bo-Ruei Huang, Daniel Seita, Erdem Bıyık · University of Southern California ·
+        Conference on Robot Learning (CoRL) 2026, Austin, Texas ·
         Page built with the
         <a href="https://github.com/eliahuhorwitz/Academic-project-page-template"
            target="_blank" rel="noopener noreferrer">
