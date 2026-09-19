@@ -86,6 +86,7 @@
       <a class="navbar-item" href="#results">Results</a>
       <a class="navbar-item" href="#comparison">Comparison</a>
       <a class="navbar-item" href="#generalization">Generalization</a>
+      <a class="navbar-item" href="#bibtex">BibTeX</a>
     </div>
   </div>
 </nav>
@@ -642,6 +643,9 @@
     <p class="has-text-centered" style="margin-bottom:2.5rem;font-size:0.95rem;color:var(--text-secondary);">
       Aggregated over the four tasks, the constrained gap (31/40 vs. 13/40) is significant
       (Cochran–Mantel–Haenszel p = 1.6×10⁻⁴); the unconstrained gap is not (p = 0.16).
+      The VLM constraint generator was audited offline on 100 unfiltered generations: 94 reproduced
+      the deployed constraint, the remaining 6 were over-constrained and would surface as
+      “no plan”, and none was looser than deployed.
     </p>
 
     <!-- Placeholder: high-value under-constraint failure clip -->
