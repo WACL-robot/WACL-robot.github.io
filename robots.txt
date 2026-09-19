@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://wacl-robot.github.io/sitemap.xml
