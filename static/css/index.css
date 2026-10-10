@@ -1187,3 +1187,32 @@ a:focus {
 
 
 
+
+/* ── Ablation finding cards (reuse .stage-card) ───────────────────── */
+.finding-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.1rem;
+  margin-bottom: 0.8rem;
+}
+
+.finding-stat {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.finding-num {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--primary-color);
+}
+
+.finding-num.muted { color: var(--text-light); }
+
+.finding-unit {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-top: 0.15rem;
+}
