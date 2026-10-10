@@ -154,9 +154,10 @@
       <a class="navbar-item" href="#abstract">Abstract</a>
       <a class="navbar-item" href="#motivation">Motivation</a>
       <a class="navbar-item" href="#method">Method</a>
-      <a class="navbar-item" href="#results">Results</a>
       <a class="navbar-item" href="#comparison">Comparison</a>
       <a class="navbar-item" href="#generalization">Generalization</a>
+      <a class="navbar-item" href="#results">Cross-Embodiment</a>
+      <a class="navbar-item" href="#ablations">Ablations</a>
       <a class="navbar-item" href="#bibtex">BibTeX</a>
     </div>
   </div>
@@ -537,32 +538,6 @@
 </section>
 
 <!-- ════════════════════════════════════════════════════════════════
-     §5  INTERACTIVE RESULTS GALLERY
-     ════════════════════════════════════════════════════════════════ -->
-<section class="section gallery-section" id="results">
-  <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Zero-Shot Cross-Embodiment Transfer</h2>
-    <p class="has-text-justified section-intro">
-      Same policy, same reference contact trajectories, same task descriptions. Swap only the robot
-      model in the optimizer, and WACL runs on a Franka FR3 with a Robotiq gripper:
-      <strong>no retraining and no FR3 demonstrations</strong>.
-    </p>
-    <!-- Populated by static/js/gallery.js -->
-    <div id="wacl-gallery"></div>
-
-    <div class="key-finding">
-      <div class="kf-stat"><span class="kf-num">75%</span><span class="kf-unit">unconstrained</span></div>
-      <div class="kf-stat"><span class="kf-num">68%</span><span class="kf-unit">constrained</span></div>
-      <p class="kf-text">
-        Aggregate success on the FR3, with only the robot model swapped (xArm: 75% / 78%).
-        The gap is mostly on OpenCoffee, where the FR3's thicker links struggle to thread the slim
-        handle; the other tasks transfer almost unchanged.
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════════════════════════════
      §6  BASELINE COMPARISON
      ════════════════════════════════════════════════════════════════ -->
 <section class="section" id="comparison">
@@ -695,95 +670,6 @@
       </div>
     </div>
 
-    <!-- Ablations and controls -->
-    <h3 class="title is-5 has-text-centered" style="margin-top:2.5rem;margin-bottom:1rem;">
-      What Makes It Work
-    </h3>
-    <div class="abl-panel">
-      <div class="abl-row">
-        <div class="abl-text"><h4>The contact has to slide</h4><p>OpenCoffee. Pin the anchor to one spot on the link and the motion turns IK-infeasible halfway, under the cup-upright constraint.</p></div>
-        <div class="abl-bars"><div class="abl-bar"><span class="abl-label">WACL</span><span class="abl-track"><span class="abl-fill win" style="width:70%"></span></span><span class="abl-val win">7/10</span></div><div class="abl-bar"><span class="abl-label">fixed anchor</span><span class="abl-track"><span class="abl-fill " style="width:30%"></span></span><span class="abl-val ">3/10</span></div></div>
-      </div>
-      <div class="abl-row">
-        <div class="abl-text"><h4>The optimizer picks the link</h4><p>PressButton. Each link reaches placements the other misses; searching over both recovers them.</p></div>
-        <div class="abl-bars"><div class="abl-bar"><span class="abl-label">WACL</span><span class="abl-track"><span class="abl-fill win" style="width:90%"></span></span><span class="abl-val win">9/10</span></div><div class="abl-bar"><span class="abl-label">link 5 only</span><span class="abl-track"><span class="abl-fill " style="width:60%"></span></span><span class="abl-val ">6/10</span></div><div class="abl-bar"><span class="abl-label">link 6 only</span><span class="abl-track"><span class="abl-fill " style="width:70%"></span></span><span class="abl-val ">7/10</span></div></div>
-      </div>
-      <div class="abl-row">
-        <div class="abl-text"><h4>Learning beats a hand-designed arc</h4><p>OpenCoffee. The lid does not move on an arc: the capsule carriage slides while the lid rotates less than the handle. The policy learns that motion from demonstrations.</p></div>
-        <div class="abl-bars"><div class="abl-bar"><span class="abl-label">WACL</span><span class="abl-track"><span class="abl-fill win" style="width:70%"></span></span><span class="abl-val win">7/10</span></div><div class="abl-bar"><span class="abl-label">hand-set arc</span><span class="abl-track"><span class="abl-fill " style="width:40%"></span></span><span class="abl-val ">4/10</span></div></div>
-      </div>
-      <div class="abl-row">
-        <div class="abl-text"><h4>A second constraint is free</h4><p>CloseFaucet. Add a cup-upright constraint on top of the above-sink one: same success, no retraining.</p></div>
-        <div class="abl-bars"><div class="abl-bar"><span class="abl-label">one constraint</span><span class="abl-track"><span class="abl-fill win" style="width:70%"></span></span><span class="abl-val win">7/10</span></div><div class="abl-bar"><span class="abl-label">two constraints</span><span class="abl-track"><span class="abl-fill win" style="width:70%"></span></span><span class="abl-val win">7/10</span></div></div>
-      </div>
-    </div>
-
-    <details style="max-width:820px;margin:1.5rem auto 2.5rem;">
-      <summary class="has-text-centered" style="cursor:pointer;font-weight:600;color:var(--primary-color);">
-        Full results
-      </summary>
-      <div style="overflow-x:auto;margin-top:1rem;">
-        <table class="table is-bordered is-striped is-hoverable is-fullwidth"
-               style="margin:0 auto;text-align:center;font-family:'Inter',sans-serif;font-size:0.95rem;">
-          <thead>
-            <tr style="background:var(--background-accent);">
-              <th style="text-align:left;">Variant</th>
-              <th style="text-align:left;">What changes</th>
-              <th style="text-align:left;">Task</th>
-              <th style="color:#16a34a;">Full WACL</th>
-              <th>Variant</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="text-align:left;font-weight:600;">+ second constraint</td>
-              <td style="text-align:left;">cup-upright AxisCone added</td>
-              <td style="text-align:left;">CloseFaucet</td>
-              <td>7/10</td><td>7/10</td>
-            </tr>
-            <tr>
-              <td style="text-align:left;font-weight:600;">w/o sliding anchor</td>
-              <td style="text-align:left;">anchor fixed at first waypoint</td>
-              <td style="text-align:left;">OpenCoffee</td>
-              <td style="color:#16a34a;font-weight:600;">7/10</td><td>3/10</td>
-            </tr>
-            <tr>
-              <td rowspan="2" style="text-align:left;font-weight:600;vertical-align:middle;">w/o link search</td>
-              <td style="text-align:left;">link fixed to link 5</td>
-              <td style="text-align:left;">PressButton</td>
-              <td style="color:#16a34a;font-weight:600;">9/10</td><td>6/10</td>
-            </tr>
-            <tr>
-              <td style="text-align:left;">link fixed to link 6</td>
-              <td style="text-align:left;">PressButton</td>
-              <td style="color:#16a34a;font-weight:600;">9/10</td><td>7/10</td>
-            </tr>
-            <tr>
-              <td rowspan="2" style="text-align:left;font-weight:600;vertical-align:middle;">geometric primitive</td>
-              <td style="text-align:left;">hand-set arc as trajectory</td>
-              <td style="text-align:left;">OpenCoffee</td>
-              <td style="color:#16a34a;font-weight:600;">7/10</td><td>4/10</td>
-            </tr>
-            <tr>
-              <td style="text-align:left;">hand-set line as trajectory</td>
-              <td style="text-align:left;">PressButton</td>
-              <td style="color:#16a34a;font-weight:600;">9/10</td><td>7/10</td>
-            </tr>
-            <tr>
-              <td style="text-align:left;font-weight:600;">registered replay</td>
-              <td style="text-align:left;">ICP-registered demonstration</td>
-              <td style="text-align:left;">OpenCoffee</td>
-              <td style="color:#16a34a;font-weight:600;">7/10</td><td>6/10</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <p style="font-size:0.78rem;color:var(--text-light);margin-top:0.5rem;">
-        Generalization, ablations, and controls. Each variant runs 10 rollouts on one constrained task,
-        on the same placements as the full model. A second end-effector constraint leaves success
-        unchanged, while removing an optimizer component or replacing the learned trajectory lowers it.
-      </p>
-    </details>
 
     <p class="has-text-centered" style="margin-bottom:2.5rem;font-size:0.95rem;color:var(--text-secondary);">
       Aggregated over the four tasks, the constrained gap (31/40 vs. 13/40) is significant
@@ -877,6 +763,127 @@
         </p> -->
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     §5  INTERACTIVE RESULTS GALLERY
+     ════════════════════════════════════════════════════════════════ -->
+<section class="section gallery-section" style="background:var(--background-primary);" id="results">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Zero-Shot Cross-Embodiment Transfer</h2>
+    <p class="has-text-justified section-intro">
+      Same policy, same reference contact trajectories, same task descriptions. Swap only the robot
+      model in the optimizer, and WACL runs on a Franka FR3 with a Robotiq gripper:
+      <strong>no retraining and no FR3 demonstrations</strong>.
+    </p>
+    <!-- Populated by static/js/gallery.js -->
+    <div id="wacl-gallery"></div>
+
+    <div class="key-finding">
+      <div class="kf-stat"><span class="kf-num">75%</span><span class="kf-unit">unconstrained</span></div>
+      <div class="kf-stat"><span class="kf-num">68%</span><span class="kf-unit">constrained</span></div>
+      <p class="kf-text">
+        Aggregate success on the FR3, with only the robot model swapped (xArm: 75% / 78%).
+        The gap is mostly on OpenCoffee, where the FR3's thicker links struggle to thread the slim
+        handle; the other tasks transfer almost unchanged.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     WHAT MAKES IT WORK (ablations and controls)
+     ════════════════════════════════════════ -->
+<section class="section" style="background:var(--background-secondary);" id="ablations">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">What Makes It Work</h2>
+    <p class="has-text-centered section-intro" style="max-width:760px;margin:0 auto;">Remove one piece at a time and see what breaks. Every row runs 10 rollouts on the same marked placements as the full model.</p>
+    <div class="abl-panel">
+      <div class="abl-row">
+        <div class="abl-text"><h4>The contact has to slide</h4><p>OpenCoffee. Pin the anchor to one spot on the link and the motion turns IK-infeasible halfway, under the cup-upright constraint.</p></div>
+        <div class="abl-bars"><div class="abl-bar"><span class="abl-label">WACL</span><span class="abl-track"><span class="abl-fill win" style="width:70%"></span></span><span class="abl-val win">7/10</span></div><div class="abl-bar"><span class="abl-label">fixed anchor</span><span class="abl-track"><span class="abl-fill " style="width:30%"></span></span><span class="abl-val ">3/10</span></div></div>
+      </div>
+      <div class="abl-row">
+        <div class="abl-text"><h4>The optimizer picks the link</h4><p>PressButton. Each link reaches placements the other misses; searching over both recovers them.</p></div>
+        <div class="abl-bars"><div class="abl-bar"><span class="abl-label">WACL</span><span class="abl-track"><span class="abl-fill win" style="width:90%"></span></span><span class="abl-val win">9/10</span></div><div class="abl-bar"><span class="abl-label">link 5 only</span><span class="abl-track"><span class="abl-fill " style="width:60%"></span></span><span class="abl-val ">6/10</span></div><div class="abl-bar"><span class="abl-label">link 6 only</span><span class="abl-track"><span class="abl-fill " style="width:70%"></span></span><span class="abl-val ">7/10</span></div></div>
+      </div>
+      <div class="abl-row">
+        <div class="abl-text"><h4>Learning beats a hand-designed arc</h4><p>OpenCoffee. The lid does not move on an arc: the capsule carriage slides while the lid rotates less than the handle. The policy learns that motion from demonstrations.</p></div>
+        <div class="abl-bars"><div class="abl-bar"><span class="abl-label">WACL</span><span class="abl-track"><span class="abl-fill win" style="width:70%"></span></span><span class="abl-val win">7/10</span></div><div class="abl-bar"><span class="abl-label">hand-set arc</span><span class="abl-track"><span class="abl-fill " style="width:40%"></span></span><span class="abl-val ">4/10</span></div></div>
+      </div>
+      <div class="abl-row">
+        <div class="abl-text"><h4>A second constraint is free</h4><p>CloseFaucet. Add a cup-upright constraint on top of the above-sink one: same success, no retraining.</p></div>
+        <div class="abl-bars"><div class="abl-bar"><span class="abl-label">one constraint</span><span class="abl-track"><span class="abl-fill win" style="width:70%"></span></span><span class="abl-val win">7/10</span></div><div class="abl-bar"><span class="abl-label">two constraints</span><span class="abl-track"><span class="abl-fill win" style="width:70%"></span></span><span class="abl-val win">7/10</span></div></div>
+      </div>
+    </div>
+
+    <details style="max-width:820px;margin:1.5rem auto 2.5rem;">
+      <summary class="has-text-centered" style="cursor:pointer;font-weight:600;color:var(--primary-color);">
+        Full results
+      </summary>
+      <div style="overflow-x:auto;margin-top:1rem;">
+        <table class="table is-bordered is-striped is-hoverable is-fullwidth"
+               style="margin:0 auto;text-align:center;font-family:'Inter',sans-serif;font-size:0.95rem;">
+          <thead>
+            <tr style="background:var(--background-accent);">
+              <th style="text-align:left;">Variant</th>
+              <th style="text-align:left;">What changes</th>
+              <th style="text-align:left;">Task</th>
+              <th style="color:#16a34a;">Full WACL</th>
+              <th>Variant</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="text-align:left;font-weight:600;">+ second constraint</td>
+              <td style="text-align:left;">cup-upright AxisCone added</td>
+              <td style="text-align:left;">CloseFaucet</td>
+              <td>7/10</td><td>7/10</td>
+            </tr>
+            <tr>
+              <td style="text-align:left;font-weight:600;">w/o sliding anchor</td>
+              <td style="text-align:left;">anchor fixed at first waypoint</td>
+              <td style="text-align:left;">OpenCoffee</td>
+              <td style="color:#16a34a;font-weight:600;">7/10</td><td>3/10</td>
+            </tr>
+            <tr>
+              <td rowspan="2" style="text-align:left;font-weight:600;vertical-align:middle;">w/o link search</td>
+              <td style="text-align:left;">link fixed to link 5</td>
+              <td style="text-align:left;">PressButton</td>
+              <td style="color:#16a34a;font-weight:600;">9/10</td><td>6/10</td>
+            </tr>
+            <tr>
+              <td style="text-align:left;">link fixed to link 6</td>
+              <td style="text-align:left;">PressButton</td>
+              <td style="color:#16a34a;font-weight:600;">9/10</td><td>7/10</td>
+            </tr>
+            <tr>
+              <td rowspan="2" style="text-align:left;font-weight:600;vertical-align:middle;">geometric primitive</td>
+              <td style="text-align:left;">hand-set arc as trajectory</td>
+              <td style="text-align:left;">OpenCoffee</td>
+              <td style="color:#16a34a;font-weight:600;">7/10</td><td>4/10</td>
+            </tr>
+            <tr>
+              <td style="text-align:left;">hand-set line as trajectory</td>
+              <td style="text-align:left;">PressButton</td>
+              <td style="color:#16a34a;font-weight:600;">9/10</td><td>7/10</td>
+            </tr>
+            <tr>
+              <td style="text-align:left;font-weight:600;">registered replay</td>
+              <td style="text-align:left;">ICP-registered demonstration</td>
+              <td style="text-align:left;">OpenCoffee</td>
+              <td style="color:#16a34a;font-weight:600;">7/10</td><td>6/10</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:0.78rem;color:var(--text-light);margin-top:0.5rem;">
+        Generalization, ablations, and controls. Each variant runs 10 rollouts on one constrained task,
+        on the same placements as the full model. A second end-effector constraint leaves success
+        unchanged, while removing an optimizer component or replacing the learned trajectory lowers it.
+      </p>
+    </details>
   </div>
 </section>
 
