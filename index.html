@@ -570,7 +570,7 @@
     <h2 class="title is-3 has-text-centered">Baseline Comparison</h2>
 
     <p class="has-text-justified section-intro">
-      The baseline is KALM, the keypoint-conditioned diffusion policy WACL builds on, retrained to
+      The baseline is KALM, a keypoint-conditioned diffusion policy whose keypoint pipeline WACL shares, retrained to
       regress the 6-DoF pose of one contact link. It runs through the <em>same</em> optimizer, with
       the anchor search disabled. Committing to a link pose leaves IK no freedom once a constraint
       on the hand binds. WACL only says where and how to touch the object and lets the optimizer
