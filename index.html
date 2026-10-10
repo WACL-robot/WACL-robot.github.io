@@ -699,34 +699,22 @@
     <h3 class="title is-5 has-text-centered" style="margin-top:2.5rem;margin-bottom:1rem;">
       What Makes It Work
     </h3>
-    <div class="columns is-multiline" style="max-width:900px;margin:1rem auto 0;">
-      <div class="column is-half">
-        <div class="stage-card">
-          <div class="finding-stats"><div class="finding-stat"><span class="finding-num">7/10</span><span class="finding-unit">sliding anchor</span></div><div class="finding-stat"><span class="finding-num muted">3/10</span><span class="finding-unit">fixed anchor</span></div></div>
-          <h3>The contact has to slide</h3>
-          <p>On OpenCoffee, pinning the anchor to one spot on the link makes the motion IK-infeasible halfway through under the cup-upright constraint.</p>
-        </div>
+    <div class="abl-panel">
+      <div class="abl-row">
+        <div class="abl-text"><h4>The contact has to slide</h4><p>OpenCoffee. Pin the anchor to one spot on the link and the motion turns IK-infeasible halfway, under the cup-upright constraint.</p></div>
+        <div class="abl-bars"><div class="abl-bar"><span class="abl-label">WACL</span><span class="abl-track"><span class="abl-fill win" style="width:70%"></span></span><span class="abl-val win">7/10</span></div><div class="abl-bar"><span class="abl-label">fixed anchor</span><span class="abl-track"><span class="abl-fill " style="width:30%"></span></span><span class="abl-val ">3/10</span></div></div>
       </div>
-      <div class="column is-half">
-        <div class="stage-card">
-          <div class="finding-stats"><div class="finding-stat"><span class="finding-num">9/10</span><span class="finding-unit">link search</span></div><div class="finding-stat"><span class="finding-num muted">6/10</span><span class="finding-unit">link 5 only</span></div><div class="finding-stat"><span class="finding-num muted">7/10</span><span class="finding-unit">link 6 only</span></div></div>
-          <h3>The optimizer picks the link</h3>
-          <p>On PressButton, each link reaches placements the other cannot. Searching over both recovers them.</p>
-        </div>
+      <div class="abl-row">
+        <div class="abl-text"><h4>The optimizer picks the link</h4><p>PressButton. Each link reaches placements the other misses; searching over both recovers them.</p></div>
+        <div class="abl-bars"><div class="abl-bar"><span class="abl-label">WACL</span><span class="abl-track"><span class="abl-fill win" style="width:90%"></span></span><span class="abl-val win">9/10</span></div><div class="abl-bar"><span class="abl-label">link 5 only</span><span class="abl-track"><span class="abl-fill " style="width:60%"></span></span><span class="abl-val ">6/10</span></div><div class="abl-bar"><span class="abl-label">link 6 only</span><span class="abl-track"><span class="abl-fill " style="width:70%"></span></span><span class="abl-val ">7/10</span></div></div>
       </div>
-      <div class="column is-half">
-        <div class="stage-card">
-          <div class="finding-stats"><div class="finding-stat"><span class="finding-num">7/10</span><span class="finding-unit">learned</span></div><div class="finding-stat"><span class="finding-num muted">4/10</span><span class="finding-unit">hand-set arc</span></div></div>
-          <h3>Learning beats a hand-designed arc</h3>
-          <p>The coffee lid does not move on an arc: the capsule carriage slides while the lid rotates less than the handle. The policy learns this motion from demonstrations.</p>
-        </div>
+      <div class="abl-row">
+        <div class="abl-text"><h4>Learning beats a hand-designed arc</h4><p>OpenCoffee. The lid does not move on an arc: the capsule carriage slides while the lid rotates less than the handle. The policy learns that motion from demonstrations.</p></div>
+        <div class="abl-bars"><div class="abl-bar"><span class="abl-label">WACL</span><span class="abl-track"><span class="abl-fill win" style="width:70%"></span></span><span class="abl-val win">7/10</span></div><div class="abl-bar"><span class="abl-label">hand-set arc</span><span class="abl-track"><span class="abl-fill " style="width:40%"></span></span><span class="abl-val ">4/10</span></div></div>
       </div>
-      <div class="column is-half">
-        <div class="stage-card">
-          <div class="finding-stats"><div class="finding-stat"><span class="finding-num">7/10</span><span class="finding-unit">one constraint</span></div><div class="finding-stat"><span class="finding-num">7/10</span><span class="finding-unit">two constraints</span></div></div>
-          <h3>A second constraint is free</h3>
-          <p>Add a cup-upright constraint on top of the above-sink one on CloseFaucet: same success, no retraining.</p>
-        </div>
+      <div class="abl-row">
+        <div class="abl-text"><h4>A second constraint is free</h4><p>CloseFaucet. Add a cup-upright constraint on top of the above-sink one: same success, no retraining.</p></div>
+        <div class="abl-bars"><div class="abl-bar"><span class="abl-label">one constraint</span><span class="abl-track"><span class="abl-fill win" style="width:70%"></span></span><span class="abl-val win">7/10</span></div><div class="abl-bar"><span class="abl-label">two constraints</span><span class="abl-track"><span class="abl-fill win" style="width:70%"></span></span><span class="abl-val win">7/10</span></div></div>
       </div>
     </div>
 

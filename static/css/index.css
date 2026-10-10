@@ -1216,3 +1216,20 @@ a:focus {
   color: var(--text-secondary);
   margin-top: 0.15rem;
 }
+
+/* ablation findings: one panel, a row per finding with success bars */
+.abl-panel { max-width: 920px; margin: 1.2rem auto 0; background: var(--background-primary); border: 1px solid var(--border-color); border-radius: var(--border-radius-lg); box-shadow: var(--shadow-sm); }
+.abl-row { display: flex; gap: 2rem; align-items: center; padding: 1.1rem 1.6rem; }
+.abl-row + .abl-row { border-top: 1px solid var(--border-color); }
+.abl-text { flex: 1 1 52%; }
+.abl-text h4 { margin: 0 0 0.25rem; font-size: 1.02rem; font-weight: 700; color: var(--text-primary); }
+.abl-text p { margin: 0; font-size: 0.9rem; line-height: 1.5; color: var(--text-secondary); }
+.abl-bars { flex: 1 1 48%; display: flex; flex-direction: column; gap: 0.4rem; }
+.abl-bar { display: grid; grid-template-columns: 7.2rem 1fr 2.6rem; align-items: center; gap: 0.6rem; font-size: 0.85rem; }
+.abl-label { color: var(--text-secondary); white-space: nowrap; }
+.abl-track { height: 0.6rem; background: var(--background-accent); border-radius: 999px; overflow: hidden; }
+.abl-fill { display: block; height: 100%; background: #94a3b8; border-radius: 999px; }
+.abl-fill.win { background: #16a34a; }
+.abl-val { text-align: right; font-weight: 600; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.abl-val.win { color: #16a34a; }
+@media (max-width: 768px) { .abl-row { flex-direction: column; align-items: stretch; gap: 0.8rem; } }
