@@ -289,8 +289,8 @@
       <p class="publication-tagline" style="margin-top:1.75rem;">
         A contact trajectory learned from bare-hand humans, plus end-effector constraints a VLM
         generates from the task description, lets a robot <strong>manipulate with its whole arm
-        while its hand stays committed to another task</strong>. No teleoperation, and no
-        retraining for new constraints.
+        while its hand stays committed to another task</strong>. WACL's demonstrations need no
+        teleoperation, and new constraints need no retraining.
       </p>
     </div>
   </div>
@@ -407,7 +407,7 @@
         <p>
           The same contact task looks entirely different depending on which link executes it —
           different pixels, different joint angles. That makes transferring contact behavior across
-          links very hard for a policy trained on raw observations.
+          links difficult for a policy trained on raw observations.
         </p>
       </div>
       <div class="challenge-card has-text-justified">
@@ -436,8 +436,9 @@
     </h3>
     <p class="has-text-justified section-intro" style="margin-bottom:2.5rem;">
       Teleoperating a 7-DoF arm into whole-arm contact is slow and unintuitive.
-      WACL instead learns from <strong>bare-hand</strong> demonstrations recorded in front of
-      calibrated RGB-D cameras — no robot, no teleoperation hardware.
+      WACL instead learns from <strong>bare-hand</strong> demonstrations recorded at 10 Hz by three
+      calibrated RGB-D cameras (two scene cameras and the arm's wrist camera), with no teleoperation
+      hardware and no robot demonstrations.
       From these it distills semantic keypoints and a <em>reference contact trajectory</em>:
       where on the object the arm should press and which way the surface faces.
       Because neither representation names a particular link, the learned behavior is robot-agnostic.
@@ -452,7 +453,7 @@
         </div>
         <p class="has-text-centered" style="margin-top:0.6rem;color:var(--text-secondary);font-size:0.98rem;">
           A person shows the task bare-handed, <br>
-          with no robot and no teleoperation.
+          without teleoperating the robot.
         </p>
       </div>
       <div class="column is-narrow has-text-centered" style="font-size:2rem;color:var(--text-light);">
@@ -499,7 +500,7 @@
           <div class="stage-num">1</div>
           <h3>Contact Trajectory Learning</h3>
           <p>
-            From 10 bare-hand human demonstrations per task, WACL leverages KALM to distill semantic
+            From 10 multi-view RGB-D bare-hand human demonstrations per task, WACL leverages KALM to distill semantic
             keypoints and learn a reference contact trajectory: where on the object to make contact
             and the surface normal to follow. It commits to no particular link, so the behavior stays
             robot-agnostic.
@@ -511,7 +512,7 @@
           <div class="stage-num">2</div>
           <h3>Safety-Aware Path Constraints</h3>
           <p>
-            A vision-language model turns the task description and scene into safety-aware path
+            A vision-language model (GPT-5.5) turns the task description and scene into safety-aware path
             constraints on the end-effector, such as <em>keep a held cup upright</em> or <em>stay above
             the sink</em>, built from a fixed vocabulary of two primitives (AxisCone, PositionRegion).
             They are regenerated at every inference, so a new end-effector constraint needs no
@@ -551,7 +552,7 @@
       on the hand binds. WACL only says where and how to touch the object and lets the optimizer
       choose the link and the anchor on it, so it can reroute the contact and keep the hand's task
       intact. (KALM learns from teleoperated demonstrations, since a bare hand cannot define a link
-      pose; WACL learns from bare-hand ones.)
+      pose; WACL learns from bare-hand ones. The comparison does not separate these two effects.)
     </p>
 
     <!-- Headline result -->
@@ -628,8 +629,8 @@
             <td colspan="8" style="font-size:0.78rem;color:var(--text-light);text-align:left;padding:0.5rem 0.75rem;">
               Real-world successes over 10 rollouts per cell, with 10 demonstrations per task.
               KALM and WACL (ours) run on the xArm 7; WACL (FR3) runs zero-shot on a Franka FR3, with
-              only the optimizer's robot model swapped. Under end-effector constraints, WACL more than
-              doubles KALM (78% vs. 33%, p = 1.6×10⁻⁴).
+              only the optimizer's robot model changed. Under constraints, WACL more than doubles
+              KALM's aggregate success (78% vs. 33%).
             </td>
           </tr>
         </tfoot>
@@ -673,9 +674,13 @@
 
     <p class="has-text-centered" style="margin-bottom:2.5rem;font-size:0.95rem;color:var(--text-secondary);">
       Aggregated over the four tasks, the constrained gap (31/40 vs. 13/40) is significant
-      (Cochran–Mantel–Haenszel p = 1.6×10⁻⁴); the unconstrained gap is not (p = 0.16).
-      The VLM constraint generator was audited offline on 100 unfiltered generations: 94 reproduced
-      the deployed constraint, the remaining 6 were over-constrained and would surface as
+      (exact McNemar test on the paired placements, p = 4.0×10⁻⁵); the unconstrained gap is not (p = 0.12).
+      An offline replay of 30 logged scenes per task through both planners shows the same pattern
+      (complete plans, WACL vs. KALM): on CloseFaucet, 30/30 vs. 3/30 with the constraint and
+      30/30 vs. 29/30 without it; on OpenCoffee, 26/30 vs. 2/30 with it and 30/30 vs. 7/30 without
+      it, so there KALM's committed link pose limits it even without the constraint.
+      The GPT-5.5 constraint generator was audited offline on 100 unfiltered generations: 94 were
+      fully correct, the remaining 6 were over-constrained and would surface as
       “no plan”, and none was looser than deployed.
     </p>
 
@@ -809,8 +814,8 @@
         <div class="abl-bars"><div class="abl-bar"><span class="abl-label">WACL</span><span class="abl-track"><span class="abl-fill win" style="width:90%"></span></span><span class="abl-val win">9/10</span></div><div class="abl-bar"><span class="abl-label">link 5 only</span><span class="abl-track"><span class="abl-fill " style="width:60%"></span></span><span class="abl-val ">6/10</span></div><div class="abl-bar"><span class="abl-label">link 6 only</span><span class="abl-track"><span class="abl-fill " style="width:70%"></span></span><span class="abl-val ">7/10</span></div></div>
       </div>
       <div class="abl-row">
-        <div class="abl-text"><h4>Learning beats a hand-designed arc</h4><p>OpenCoffee. The lid does not move on an arc: the capsule carriage slides while the lid rotates less than the handle. The policy learns that motion from demonstrations.</p></div>
-        <div class="abl-bars"><div class="abl-bar"><span class="abl-label">WACL</span><span class="abl-track"><span class="abl-fill win" style="width:70%"></span></span><span class="abl-val win">7/10</span></div><div class="abl-bar"><span class="abl-label">hand-set arc</span><span class="abl-track"><span class="abl-fill " style="width:40%"></span></span><span class="abl-val ">4/10</span></div></div>
+        <div class="abl-text"><h4>Learning beats a hand-specified arc</h4><p>OpenCoffee. The lid does not move on an arc: the capsule carriage slides while the lid rotates less than the handle. The policy learns that motion from demonstrations.</p></div>
+        <div class="abl-bars"><div class="abl-bar"><span class="abl-label">WACL</span><span class="abl-track"><span class="abl-fill win" style="width:70%"></span></span><span class="abl-val win">7/10</span></div><div class="abl-bar"><span class="abl-label">hand-specified arc</span><span class="abl-track"><span class="abl-fill " style="width:40%"></span></span><span class="abl-val ">4/10</span></div></div>
       </div>
       <div class="abl-row">
         <div class="abl-text"><h4>A second constraint is free</h4><p>CloseFaucet. Add a cup-upright constraint on top of the above-sink one: same success, no retraining.</p></div>
@@ -830,8 +835,8 @@
               <th style="text-align:left;">Variant</th>
               <th style="text-align:left;">What changes</th>
               <th style="text-align:left;">Task</th>
-              <th style="color:#16a34a;">Full WACL</th>
               <th>Variant</th>
+              <th style="color:#16a34a;">Full WACL</th>
             </tr>
           </thead>
           <tbody>
@@ -845,35 +850,35 @@
               <td style="text-align:left;font-weight:600;">w/o sliding anchor</td>
               <td style="text-align:left;">anchor fixed at first waypoint</td>
               <td style="text-align:left;">OpenCoffee</td>
-              <td style="color:#16a34a;font-weight:600;">7/10</td><td>3/10</td>
+              <td>3/10</td><td style="color:#16a34a;font-weight:600;">7/10</td>
             </tr>
             <tr>
               <td rowspan="2" style="text-align:left;font-weight:600;vertical-align:middle;">w/o link search</td>
               <td style="text-align:left;">link fixed to link 5</td>
               <td style="text-align:left;">PressButton</td>
-              <td style="color:#16a34a;font-weight:600;">9/10</td><td>6/10</td>
+              <td>6/10</td><td style="color:#16a34a;font-weight:600;">9/10</td>
             </tr>
             <tr>
               <td style="text-align:left;">link fixed to link 6</td>
               <td style="text-align:left;">PressButton</td>
-              <td style="color:#16a34a;font-weight:600;">9/10</td><td>7/10</td>
+              <td>7/10</td><td style="color:#16a34a;font-weight:600;">9/10</td>
             </tr>
             <tr>
               <td rowspan="2" style="text-align:left;font-weight:600;vertical-align:middle;">geometric primitive</td>
-              <td style="text-align:left;">hand-set arc as trajectory</td>
+              <td style="text-align:left;">hand-specified arc as trajectory</td>
               <td style="text-align:left;">OpenCoffee</td>
-              <td style="color:#16a34a;font-weight:600;">7/10</td><td>4/10</td>
+              <td>4/10</td><td style="color:#16a34a;font-weight:600;">7/10</td>
             </tr>
             <tr>
-              <td style="text-align:left;">hand-set line as trajectory</td>
+              <td style="text-align:left;">hand-specified line as trajectory</td>
               <td style="text-align:left;">PressButton</td>
-              <td style="color:#16a34a;font-weight:600;">9/10</td><td>7/10</td>
+              <td>7/10</td><td style="color:#16a34a;font-weight:600;">9/10</td>
             </tr>
             <tr>
               <td style="text-align:left;font-weight:600;">registered replay</td>
               <td style="text-align:left;">ICP-registered demonstration</td>
               <td style="text-align:left;">OpenCoffee</td>
-              <td style="color:#16a34a;font-weight:600;">7/10</td><td>6/10</td>
+              <td>6/10</td><td style="color:#16a34a;font-weight:600;">7/10</td>
             </tr>
           </tbody>
         </table>
@@ -904,6 +909,7 @@
             <span class="copy-text">Copy</span>
           </button>
         </div>
+        <!-- TODO(author): replace with the official PMLR BibTeX (volume, pages, url) once issued -->
         <pre><code id="bibtex-code">@inproceedings{huang2026wacl,
   title     = {Beyond the End-Effector: Learning Whole-Arm Contact Manipulation from Human Demonstrations},
   author    = {Bo-Ruei Huang and Daniel Seita and Erdem B{\i}y{\i}k},
